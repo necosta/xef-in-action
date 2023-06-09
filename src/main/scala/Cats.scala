@@ -1,4 +1,3 @@
-
 import cats.effect.{IO, IOApp}
 import com.xebia.functional.xef.scala.kotlin.CoroutineToIO
 import com.xebia.functional.xef.scala.auto.*
@@ -7,7 +6,7 @@ import io.circe.Decoder
 private final case class Colors(colors: List[String]) derives SerialDescriptor, Decoder
 
 object Cats extends IOApp.Simple {
-  val run = for {
+  val run: IO[Unit] = for {
     _ <- IO.println("Running...")
     res <- CoroutineToIO[IO].runCancelable[Colors] { (_, cont) =>
       ai {
@@ -16,5 +15,5 @@ object Cats extends IOApp.Simple {
     }
     _ <- IO.println(res.colors.mkString(", "))
     _ <- IO.println("Done")
-  } yield()
+  } yield ()
 }
